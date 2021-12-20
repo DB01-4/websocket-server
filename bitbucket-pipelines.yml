@@ -1,20 +1,31 @@
-# This is an example Starter pipeline configuration
-# Use a skeleton to build, test and deploy using manual and parallel steps
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-clone: 
-  depth: full
+image: node:10.15.3
 pipelines:
   branches:
     master:
       - step:
+          name: Test App
           caches:
             - node
           script:
-            # This gets executed when merging a PR to master branch
+            - rm -rf package-lock.json
+            - rm -rf node_modules
             - npm install
-            - npm test
-            - npm run build:production # or your build cmd for prod
-            - git add -A
-            - git commit -m "production build"
-            - git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_PRODUCTION_APP_NAME.git master
+            - npm run test
+      - step:
+          name: Create artifact
+          script: 
+            - git archive --format=tar.gz master -o application.tar.gz
+          artifacts: 
+           - application.tar.gz
+      - step:
+           name: Deploy to heroku
+           deployment: production
+           caches:
+             - node
+           script:
+             - pipe: atlassian/heroku-deploy:1.1.4
+               variables:
+                 HEROKU_API_KEY: $HEROKU_API_KEY
+                 HEROKU_APP_NAME: $HEROKU_APP_NAME
+                 ZIP_FILE: "application.tar.gz"
+                 WAIT: 'true'
