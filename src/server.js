@@ -1,14 +1,22 @@
 const webSocketsServerPort = 8000;
 const webSocketsServer = require('websocket').server;
 const http = require('http');
+const INDEX = '/index.html';
 
-const server = http.createServer();
-server.listen(webSocketsServerPort);
-console.log('listening on port ' + webSocketsServerPort);
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(webSocketsServerPort, () => console.log(`Listening on ${webSocketsServerPort}`));
 
-const wsServer = new webSocketsServer({
-    httpServer: server
-});
+
+
+//const server = http.createServer();
+//server.listen(webSocketsServerPort);
+
+//console.log('listening on port ' + webSocketsServerPort);
+
+const wsServer = new webSocketsServer({ server });
+
+
 
 const clients = {};
 
