@@ -2,14 +2,7 @@
   "name": "websocket-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "index.js",
   "dependencies": {
     "bufferutil": "^4.0.5",
     "express": "^4.17.2",
@@ -17,5 +10,21 @@
     "utf-8-validate": "^5.0.7",
     "websocket": "^1.0.34",
     "ws": "^8.3.0"
-  }
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "12.17.x"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/studentjovi/websocket-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/studentjovi/websocket-server#readme"
 }
