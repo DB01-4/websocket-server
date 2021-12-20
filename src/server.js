@@ -1,5 +1,6 @@
 var express = require('express'); // Get the module
-const PORT = process.env.PORT || 3000;
+const { Server } = require('ws');
+const PORT = process.env.PORT || 8000;
 const INDEX = '/index.html';
 
 const server = express()
@@ -9,7 +10,7 @@ const server = express()
 
 
 
-  const { Server } = require('ws');
+
 
 const wss = new Server({ server });
 
