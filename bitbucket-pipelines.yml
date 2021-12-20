@@ -8,13 +8,6 @@ pipelines:
   branches:
     master:
     - step:
-        name: Create artifact
-        script:
-          - tar czfv application.tgz pom.xml src/
-        artifacts:
-          - application.tgz
-
-    - step:
         name: Deploy to production
         deployment: production
         script:
