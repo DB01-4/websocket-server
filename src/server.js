@@ -1,5 +1,6 @@
 var express = require('express'); // Get the module
-const PORT = process.env.PORT || 3000;
+const { Server } = require('ws');
+const PORT = process.env.PORT || 8000;
 const INDEX = '/index.html';
 
 const server = express()
@@ -9,19 +10,21 @@ const server = express()
 
 
 
-  const { Server } = require('ws');
+
 
 const wss = new Server({ server });
 
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
-    ws.on('close', () => console.log('Client disconnected'));
-  });
+  console.log('Client connected');
 
+  ws.on('message', (msg) => {
+      console.log('Received Message: ', msg.toString());
+      wss.clients.forEach((client) => {
+        client.send(msg.toString());
+      });
+  }) 
 
-  setInterval(() => {
-    wss.clients.forEach((client) => {
-      client.send(new Date().toTimeString());
-    });
-  }, 1000);
+  ws.on('close', () => console.log('Client disconnected'));
+});
+
