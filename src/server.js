@@ -16,13 +16,15 @@ const wss = new Server({ server });
 
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
-    ws.on('close', () => console.log('Client disconnected'));
-  });
+  console.log('Client connected');
 
+  ws.on('message', (msg) => {
+      console.log('Received Message: ', msg.toString());
+      wss.clients.forEach((client) => {
+        client.send(msg.toString());
+      });
+  }) 
 
-  setInterval(() => {
-    wss.clients.forEach((client) => {
-      client.send(new Date().toTimeString());
-    });
-  }, 1000);
+  ws.on('close', () => console.log('Client disconnected'));
+});
+
